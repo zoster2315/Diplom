@@ -1,0 +1,11 @@
+C:\Users\zoste\source\repos\TestingModule\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.deps.json
+C:\Users\zoste\source\repos\TestingModule\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.runtimeconfig.json
+C:\Users\zoste\source\repos\TestingModule\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.runtimeconfig.dev.json
+C:\Users\zoste\source\repos\TestingModule\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.dll
+C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csprojResolveAssemblyReference.cache
+C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csproj.CoreCompileInputs.cache
+C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.AssemblyInfoInputs.cache
+C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.AssemblyInfo.cs
+C:\Users\zoste\source\repos\TestingModule\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.pdb
+C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.dll
+C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.pdb
