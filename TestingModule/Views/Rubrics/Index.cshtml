@@ -40,9 +40,9 @@
                     @Html.DisplayFor(modelItem => item.Subject.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>|
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>|
                     @Html.ActionLink("Duties", "Index", "Duties", new { bySubject = item.Subject.ID, byRubric = item.ID })
                 </td>
             </tr>

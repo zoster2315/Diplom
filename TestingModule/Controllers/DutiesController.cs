@@ -65,7 +65,7 @@ namespace TestingModule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,RubricId")] Duty duty)
+        public async Task<IActionResult> Create([Bind("ID,Name,RubricId,Description")] Duty duty)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +91,7 @@ namespace TestingModule.Controllers
                 return NotFound();
             }
             ViewData["RubricId"] = new SelectList(_context.Rubrics, "ID", "Name", duty.RubricId);
+            ViewData["Description"] = duty.Description;
             return View(duty);
         }
 
@@ -99,7 +100,7 @@ namespace TestingModule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,RubricId")] Duty duty)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,RubricId,Description")] Duty duty)
         {
             if (id != duty.ID)
             {
@@ -163,6 +164,42 @@ namespace TestingModule.Controllers
         private bool DutyExists(int id)
         {
             return _context.Duties.Any(e => e.ID == id);
+        }
+
+        public IActionResult UpdateRubric(int idSubject)
+        {
+            var rubrics = _context.Rubrics.Where(r => true);
+            if (idSubject != 0)
+                rubrics = rubrics.Where(r => r.SubjectId == idSubject);
+            var rubricList = new List<Rubric>();
+            foreach (Rubric r in rubrics)
+                rubricList.Add(r);
+            return Json(rubricList);
+        }
+
+        public class DutyItem
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public string RubricName { get; set; }
+        }
+
+        public IActionResult GetDuties(int idRubric)
+        {
+            var duties = from d in _context.Duties select d;
+            if (idRubric != 0)
+                duties = duties.Where(r => r.RubricId == idRubric);
+            var testsContext = duties.Include(r => r.Rubric);
+            var dutiesList = new List<DutyItem>();
+            foreach (Duty d in testsContext)
+            {
+                var dutyItem = new DutyItem();
+                dutyItem.ID = d.ID;
+                dutyItem.Name = d.Name;
+                dutyItem.RubricName = d.Rubric.Name;
+                dutiesList.Add(dutyItem);
+            }
+            return Json(dutiesList);
         }
     }
 }

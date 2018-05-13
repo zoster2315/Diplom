@@ -10,6 +10,7 @@ namespace TestingModule.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public int RubricId { get; set; }
+        public string Description { get; set; }
 
         public Rubric Rubric { get; set; }
     }

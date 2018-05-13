@@ -23,6 +23,12 @@ namespace TestingModule.Controllers
         public async Task<IActionResult> Index()
         {
             var testsContext = _context.UnitTests.Include(u => u.Duty);
+
+            var rubrics = _context.Rubrics.Where(r => true);
+            var duties = _context.Duties.Where(r => true);
+            ViewBag.SubjectId = new SelectList(_context.Subjects, "ID", "Name");
+            ViewBag.RubricId = new SelectList(rubrics, "ID", "Name");
+            ViewBag.DutyId = new SelectList(duties, "ID", "Name");
             return View(await testsContext.ToListAsync());
         }
 
@@ -57,10 +63,26 @@ namespace TestingModule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Arguments,Value,DutyId")] UnitTest unitTest)
+        public async Task<IActionResult> Create([Bind("NameArgs")] List<string> nameArgs, [Bind("Args")] List<string> args,
+            [Bind("NameValue")] List<string> nameValues, [Bind("Value")] List<string> values, [Bind("DutyId")] int dutyId, [Bind("ID")] int id)
         {
+
+            UnitTest unitTest = new UnitTest();
+            var arguments = string.Empty;
+            for (int i = 0; i < nameArgs.Count; i++)
+                arguments += string.Format("{0}={1};", nameArgs[i], args[i]);
+            unitTest.Arguments = arguments;
+            var value = string.Empty;
+            for (int i = 0; i < nameValues.Count; i++)
+                value += string.Format("{0}={1};", nameValues[i], values[i]);
+            unitTest.Value = value;
+            unitTest.ID = id;
+            unitTest.DutyId = dutyId;
+
             if (ModelState.IsValid)
             {
+
+
                 _context.Add(unitTest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -155,6 +177,13 @@ namespace TestingModule.Controllers
         private bool UnitTestExists(int id)
         {
             return _context.UnitTests.Any(e => e.ID == id);
+        }
+
+        public IActionResult GetDescription(int DutyID)
+        {
+            var duty = _context.Duties.First(d => d.ID == DutyID);
+            var j = Json(duty.Description);
+            return j;
         }
     }
 }

@@ -9,3 +9,14 @@ C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\
 C:\Users\zoste\source\repos\TestingModule\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.pdb
 C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.dll
 C:\Users\zoste\source\repos\TestingModule\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.pdb
+E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.deps.json
+E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.runtimeconfig.json
+E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.runtimeconfig.dev.json
+E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.dll
+E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.pdb
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csprojResolveAssemblyReference.cache
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csproj.CoreCompileInputs.cache
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.AssemblyInfoInputs.cache
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.AssemblyInfo.cs
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.dll
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.pdb

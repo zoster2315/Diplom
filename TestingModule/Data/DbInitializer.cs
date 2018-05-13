@@ -39,14 +39,14 @@ namespace TestingModule.Data
 
             var duties = new Duty[]
             {
-                new Duty{Name="Задание 111", RubricId=1},
-                new Duty{Name="Задание 112", RubricId=1},
-                new Duty{Name="Задание 121", RubricId=2},
-                new Duty{Name="Задание 122", RubricId=2},
-                new Duty{Name="Задание 211", RubricId=3},
-                new Duty{Name="Задание 212", RubricId=4},
-                new Duty{Name="Задание 221", RubricId=4},
-                new Duty{Name="Задание 222", RubricId=4}
+                new Duty{Name="Задание 111", RubricId=1, Description = "Описание задания 111."},
+                new Duty{Name="Задание 112", RubricId=1, Description = "Длинное описание дадания 112. надо ж посмотреть всё ли нормально будет с блинным мать его текстом. Иначе было нельзя."},
+                new Duty{Name="Задание 121", RubricId=2, Description = "Описание задания 121."},
+                new Duty{Name="Задание 122", RubricId=2, Description = "Описание задания 122."},
+                new Duty{Name="Задание 211", RubricId=3, Description = "Описание задания 211."},
+                new Duty{Name="Задание 212", RubricId=4, Description = "Описание задания 212."},
+                new Duty{Name="Задание 221", RubricId=4, Description = "Описание задания 221."},
+                new Duty{Name="Задание 222", RubricId=4, Description = "Описание задания 222."}
             };
             foreach (Duty d in duties)
                 context.Duties.Add(d);
