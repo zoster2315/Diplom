@@ -64,25 +64,15 @@ namespace TestingModule.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NameArgs")] List<string> nameArgs, [Bind("Args")] List<string> args,
-            [Bind("NameValue")] List<string> nameValues, [Bind("Value")] List<string> values, [Bind("DutyId")] int dutyId, [Bind("ID")] int id)
+            [Bind("NameValue")] List<string> nameValue, [Bind("Values")] List<string> values, [Bind("DutyId")] int dutyId, [Bind("ID")] int id)
         {
 
             UnitTest unitTest = new UnitTest();
-            var arguments = string.Empty;
-            for (int i = 0; i < nameArgs.Count; i++)
-                arguments += string.Format("{0}={1};", nameArgs[i], args[i]);
-            unitTest.Arguments = arguments;
-            var value = string.Empty;
-            for (int i = 0; i < nameValues.Count; i++)
-                value += string.Format("{0}={1};", nameValues[i], values[i]);
-            unitTest.Value = value;
-            unitTest.ID = id;
-            unitTest.DutyId = dutyId;
+
+            ChangeUnitTest(unitTest, nameArgs, args, nameValue, values, dutyId, id);
 
             if (ModelState.IsValid)
             {
-
-
                 _context.Add(unitTest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -105,6 +95,9 @@ namespace TestingModule.Controllers
                 return NotFound();
             }
             ViewData["DutyId"] = new SelectList(_context.Duties, "ID", "Name", unitTest.DutyId);
+
+            SetArgsAndValues(unitTest);
+            
             return View(unitTest);
         }
 
@@ -113,31 +106,16 @@ namespace TestingModule.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Arguments,Value,DutyId")] UnitTest unitTest)
+        public async Task<IActionResult> Edit([Bind("NameArgs")] List<string> nameArgs, [Bind("Args")] List<string> args,
+            [Bind("NameValue")] List<string> nameValue, [Bind("Values")] List<string> values, [Bind("DutyId")] int dutyId, [Bind("ID")] int id)
         {
-            if (id != unitTest.ID)
-            {
-                return NotFound();
-            }
+            UnitTest unitTest = _context.UnitTests.First(t => t.ID == id);
+
+            ChangeUnitTest(unitTest, nameArgs, args, nameValue, values, dutyId, id);
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(unitTest);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UnitTestExists(unitTest.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DutyId"] = new SelectList(_context.Duties, "ID", "Name", unitTest.DutyId);
@@ -184,6 +162,50 @@ namespace TestingModule.Controllers
             var duty = _context.Duties.First(d => d.ID == DutyID);
             var j = Json(duty.Description);
             return j;
+        }
+
+        public void SetArgsAndValues(UnitTest unitTest)
+        {
+            var nameArgs = new List<string>();
+            var args = new List<string>();
+            var arguments = unitTest.Arguments;
+            while (arguments.Length > 0)
+            {
+                var argument = arguments.Substring(0, arguments.IndexOf(';') + 1);
+                nameArgs.Add(argument.Substring(0, argument.IndexOf('=')));
+                args.Add(argument.Substring(argument.IndexOf('=') + 1, argument.IndexOf(';') - argument.IndexOf('=') - 1));
+                arguments = arguments.Remove(0, argument.Length);
+            }
+
+            var nameValues = new List<string>();
+            var values = new List<string>();
+            var allValues = unitTest.Value;
+            while (allValues.Length > 0)
+            {
+                var value = allValues.Substring(0, allValues.IndexOf(';') + 1);
+                nameValues.Add(value.Substring(0, value.IndexOf('=')));
+                values.Add(value.Substring(value.IndexOf('=') + 1, value.IndexOf(';') - value.IndexOf('=') - 1));
+                allValues = allValues.Remove(0, value.Length);
+            }
+
+            ViewBag.NameArgs = nameArgs;
+            ViewBag.Args = args;
+            ViewBag.NameValue = nameValues;
+            ViewBag.Values = values;
+        }
+
+        public void ChangeUnitTest(UnitTest unitTest, List<string> nameArgs, List<string> args, List<string> nameValue, List<string> values, int dutyId, int id)
+        {
+            var arguments = string.Empty;
+            for (int i = 0; i < nameArgs.Count; i++)
+                arguments += string.Format("{0}={1};", nameArgs[i], args[i]);
+            unitTest.Arguments = arguments;
+            var value = string.Empty;
+            for (int i = 0; i < nameValue.Count; i++)
+                value += string.Format("{0}={1};", nameValue[i], values[i]);
+            unitTest.Value = value;
+            unitTest.ID = id;
+            unitTest.DutyId = dutyId;
         }
     }
 }

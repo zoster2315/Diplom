@@ -14,9 +14,9 @@ E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.runtimeconf
 E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.runtimeconfig.dev.json
 E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.dll
 E:\diplom\Diplom\TestingModule\bin\Debug\netcoreapp2.0\TestingModule.pdb
-E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csprojResolveAssemblyReference.cache
 E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csproj.CoreCompileInputs.cache
 E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.AssemblyInfoInputs.cache
 E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.AssemblyInfo.cs
 E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.dll
 E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.pdb
+E:\diplom\Diplom\TestingModule\obj\Debug\netcoreapp2.0\TestingModule.csprojResolveAssemblyReference.cache

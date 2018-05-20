@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Редактирование</h2>
 
-<h4>UnitTest</h4>
+<h4>Тест</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,31 +14,126 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
-                <label asp-for="Arguments" class="control-label"></label>
-                <input asp-for="Arguments" class="form-control" />
-                <span asp-validation-for="Arguments" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" class="form-control" />
-                <span asp-validation-for="Value" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="DutyId" class="control-label"></label>
                 <select asp-for="DutyId" class="form-control" asp-items="ViewBag.DutyId"></select>
-                <span asp-validation-for="DutyId" class="text-danger"></span>
+                <span asp-validation-for="DutyId" class="text-danger">Задание</span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <style>
+                    table {
+                        border-collapse: separate;
+                        border-spacing: 10px 10px;
+                        width: 100%
+                    }
+                </style>
+                <div id="arguments">
+                    <label asp-for="Arguments" class="control-label">Аргументы</label>
+                    <table class="body-content" title="Аргументы">
+                        <tr>
+                            <th>Имя</th>
+                            <th>Значение</th>
+                        </tr>
+                        @for (int i = 0; i < ViewBag.NameArgs.Count; i++)
+                        {
+                            <tr>
+                                <td><input type='text' name='NameArgs[@i]' value="@ViewBag.NameArgs[i]" class="form-control" /></td>
+                                <td><input type='text' name='Args[@i]' value="@ViewBag.Args[i]" class="form-control" /></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <p><input type="button" id="addArg" value="Добавить аргумент" class="btn btn-default" /></p>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label">Значения</label>
+                <div id="values">
+                    <table class="body-content" title="Значения">
+                        <tr>
+                            <th>Имя</th>
+                            <th>Значение</th>
+                        </tr>
+                        @for (int i = 0; i < ViewBag.NameValue.Count; i++)
+                        {
+                            <tr>
+                                <td><input type='text' name='NameValue[@i]' value="@ViewBag.NameValue[i]" class="form-control" /></td>
+                                <td><input type='text' name='Values[@i]' value="@ViewBag.Values[i]" class="form-control" /></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <p><input type="button" id="addVal" value="Добавить значение" class="btn btn-default" /></p>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">К списку</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $('#addArg').click(function () {
+                var i = 0;
+                var k = i + 1;
+                var next = 'NameArgs[' + k + ']';
+                while (document.getElementsByName(next).length > 0) {
+                    i = i + 1;
+                    k = i + 1;
+                    next = 'NameArgs[' + k + ']';
+                }
+                var prevName = document.getElementsByName("NameArgs[" + i + "]")[0].value;
+                var prevArg = document.getElementsByName("Args[" + i + "]")[0].value;
+                if (prevArg == "" || prevName == "") {
+                    alert("alert");
+                    return;
+                }
+                i++;
+                var html2Add = "<table class='body-content'>" +
+                    "<tr>" +
+                    "<td><input type='text' name='NameArgs[" + i + "]' class='form-control' /></td>" +
+                    "<td><input type='text' name='Args[" + i + "]' class='form-control' /></td>" +
+                    "</tr>" +
+                    "</table>";
+                $('#arguments').append(html2Add);
+            })
+        })
+    </script>
+
+    <script>
+        $(function () {
+            $('#addVal').click(function () {
+                var i = 0;
+                var k = i + 1;
+                var next = 'NameValue[' + k + ']';
+                while (document.getElementsByName(next).length > 0) {
+                    i = i + 1;
+                    k = i + 1;
+                    next = 'NameValue[' + k + ']';
+                }
+
+                var prevName = document.getElementsByName("NameValue[" + i + "]")[0].value;
+                var prevArg = document.getElementsByName("Values[" + i + "]")[0].value;
+                if (prevArg == "" || prevName == "") {
+                    alert("alert");
+                    return;
+                }
+                i++;
+                var html2Add = "<table class='body-content'>" +
+                    "<tr>" +
+                    "<td><input type='text' name='NameValue[" + i + "]' class='form-control'/></td>" +
+                    "<td><input type='text' name='Values[" + i + "]' class='form-control'/></td>" +
+                    "</tr>" +
+                    "</table>";
+                $('#values').append(html2Add);
+            })
+        })
+    </script>
+
 }

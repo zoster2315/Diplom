@@ -2,17 +2,17 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h2>Index</h2>
+<h2>Тема</h2>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Создать</a>
 </p>
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
             <div class="form-group">
-                Find by name: <select name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">All</option></select>
-                <input type="submit" value="Search" class="btn btn-default" /> |
-                <a asp-action="Index">Back to Full List</a>
+                Тематика: <select name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">All</option></select>
+                <input type="submit" value="Поиск" class="btn btn-default" /> |
+                <a asp-action="Index">К списку</a>
             </div>
         </p>
     </div>
@@ -21,10 +21,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Название
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subject)
+                Тематика
             </th>
             <th></th>
         </tr>
@@ -42,7 +42,7 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>|
+                    <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a> |
                     @Html.ActionLink("Duties", "Index", "Duties", new { bySubject = item.Subject.ID, byRubric = item.ID })
                 </td>
             </tr>

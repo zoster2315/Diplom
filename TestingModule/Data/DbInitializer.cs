@@ -54,22 +54,22 @@ namespace TestingModule.Data
 
             var tests = new UnitTest[]
             {
-                new UnitTest{Value="Тест 1111", DutyId=1},
-                new UnitTest{Value="Тест 1112", DutyId=1},
-                new UnitTest{Value="Тест 1121", DutyId=1},
-                new UnitTest{Value="Тест 1122", DutyId=1},
-                new UnitTest{Value="Тест 1211", DutyId=1},
-                new UnitTest{Value="Тест 1212", DutyId=1},
-                new UnitTest{Value="Тест 1221", DutyId=1},
-                new UnitTest{Value="Тест 1222", DutyId=1},
-                new UnitTest{Value="Тест 2111", DutyId=1},
-                new UnitTest{Value="Тест 2112", DutyId=1},
-                new UnitTest{Value="Тест 2121", DutyId=1},
-                new UnitTest{Value="Тест 2122", DutyId=1},
-                new UnitTest{Value="Тест 2211", DutyId=1},
-                new UnitTest{Value="Тест 2212", DutyId=1},
-                new UnitTest{Value="Тест 2221", DutyId=1},
-                new UnitTest{Value="Тест 2222", DutyId=1},
+                new UnitTest{Value="Тест=1111;", DutyId=1, Arguments="1=1;"},
+                new UnitTest{Value="Тест=1112;", DutyId=1, Arguments="1=2;"},
+                new UnitTest{Value="Тест=1121;", DutyId=2, Arguments="1=3;"},
+                new UnitTest{Value="Тест=1122;", DutyId=2, Arguments="1=4;"},
+                new UnitTest{Value="Тест=1211;", DutyId=3, Arguments="1=5;"},
+                new UnitTest{Value="Тест=1212;", DutyId=3, Arguments="1=6;"},
+                new UnitTest{Value="Тест=1221;", DutyId=4, Arguments="1=7;"},
+                new UnitTest{Value="Тест=1222;", DutyId=4, Arguments="1=8;"},
+                new UnitTest{Value="Тест=2111;", DutyId=5, Arguments="1=9;"},
+                new UnitTest{Value="Тест=2112;", DutyId=5, Arguments="1=1asdfgc;"},
+                new UnitTest{Value="Тест=2121;", DutyId=6, Arguments="1=DDFGCsa;"},
+                new UnitTest{Value="Тест=2122;", DutyId=6, Arguments="1=2122;"},
+                new UnitTest{Value="Тест=2211;", DutyId=7, Arguments="1=1asdfasd;"},
+                new UnitTest{Value="Тест=2212;", DutyId=7, Arguments="1=13;"},
+                new UnitTest{Value="Тест=2221;", DutyId=8, Arguments="1=0;"},
+                new UnitTest{Value="Тест=2222;", DutyId=8, Arguments="1=91;"},
             };
             foreach (UnitTest t in tests)
                 context.UnitTests.Add(t);

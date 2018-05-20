@@ -1,62 +1,90 @@
 ﻿@model IEnumerable<TestingModule.Models.UnitTest>
 
-@{
+    @{
     ViewData["Title"] = "Index";
-}
+    }
 
-<h2>Index</h2>
+    <h2>Тесты</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            <div class="form-group">
-                Find by name: <select id="bySubject" name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">All</option></select>
-            </div>
-            <div id="RubricSearch" class="form-group">
-                Find by name: <select id="byRubric" name="byRubric" class="form-control" asp-items="ViewBag.RubricId"><option value="">All</option></select>
-            </div>
-            <div id="DutycSearch" class="form-group">
-                Find by name: <select id="byDuty" name="byDuty" class="form-control" asp-items="ViewBag.DutyId"><option value="">All</option></select>
-            </div>
-        </p>
-    </div>
-</form>
-<table class="table">
-    <thead>
-        <tr>
+    <p>
+        <a asp-action="Create">Создать</a>
+    </p>
+    <form asp-action="Index" method="get">
+        <div class="form-actions no-color">
+            <p>
+                <div class="form-group">
+                    Тематика: <select id="bySubject" name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">All</option></select>
+                </div>
+                <div id="RubricSearch" class="form-group">
+                    Тема: <select id="byRubric" name="byRubric" class="form-control" asp-items="ViewBag.RubricId"><option value="">All</option></select>
+                </div>
+                <div id="DutycSearch" class="form-group">
+                    Задание: <select id="byDuty" name="byDuty" class="form-control" asp-items="ViewBag.DutyId"><option value="">All</option></select>
+                </div>
+            </p>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Arguments)
+                    Аргументы
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Value)
+                    Значения
                 </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Duty)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arguments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duty.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                <th>
+                    Задание
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Arguments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duty.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    @section Scripts {
+    <script>
+        $("#bySubject").change(function () {
+            $.getJSON("/Duties/UpdateRubric?idSubject=" + $("#bySubject").val(), function (data) {
+                //$("#RubricSearch").html('<select id ="byRubric" name="byRubric" class="form-control"><option value="">All</option></select>');
+                $("#byRubric").html('');
+                $("#byRubric").append('<option value="">All</option>');
+                $.each(data, function (index, rubric) {
+                    $("#byRubric").append('<option value="' + rubric.id + '">' + rubric.name + '</option>')
+                })
+            });
+        })
+    </script>
+
+    <script>
+        $("#byRubric").change(function () {
+            $.getJSON("/Duties/GetDuties?idRubric=" + $("#byRubric").val(), function (data) {
+                $("#byDuty").html('');
+                $("#byDuty").append('<option value="">All</option>');
+                $.each(data, function (index, rubric) {
+                    $("#byDuty").append('<option value="' + rubric.id + '">' + rubric.name + '</option>')
+                })
+            });
+        });
+    </script>
+    }
