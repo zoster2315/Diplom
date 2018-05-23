@@ -182,6 +182,9 @@ namespace TestingModule.Controllers
             public int ID { get; set; }
             public string Name { get; set; }
             public string RubricName { get; set; }
+            public int RubricId { get; set; }
+            public int SubjectId { get; set; }
+
         }
 
         public IActionResult GetDuties(int idRubric)
@@ -197,6 +200,8 @@ namespace TestingModule.Controllers
                 dutyItem.ID = d.ID;
                 dutyItem.Name = d.Name;
                 dutyItem.RubricName = d.Rubric.Name;
+                dutyItem.RubricId = d.RubricId;
+                dutyItem.SubjectId = d.Rubric.SubjectId;
                 dutiesList.Add(dutyItem);
             }
             return Json(dutiesList);

@@ -12,7 +12,7 @@
         var prevName = document.getElementsByName("NameArgs[" + i + "]")[0].value;
         var prevArg = document.getElementsByName("Args[" + i + "]")[0].value;
         if (prevArg == "" || prevName == "") {
-            alert("alert");
+            alert("Должны быть заполнены все поля.");
             return;
         }
         i++;

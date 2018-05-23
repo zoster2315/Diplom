@@ -160,5 +160,32 @@ namespace TestingModule.Controllers
         {
             return _context.Rubrics.Any(e => e.ID == id);
         }
+
+        public class RubricItem
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public string SubjectName { get; set; }
+            public int SubjectId { get; set; }
+        }
+
+        public IActionResult GetRubrics(int idSubject)
+        {
+            var rubrics = from r in _context.Rubrics select r;
+            if (idSubject != 0)
+                rubrics = rubrics.Where(r => r.SubjectId == idSubject);
+            var testsContext = rubrics.Include(r => r.Subject);
+            var rubricList = new List<RubricItem>();
+            foreach (Rubric r in testsContext)
+            {
+                var rubricItem = new RubricItem();
+                rubricItem.ID = r.ID;
+                rubricItem.Name = r.Name;
+                rubricItem.SubjectName = r.Subject.Name;
+                rubricItem.SubjectId = r.SubjectId;
+                rubricList.Add(rubricItem);
+            }
+            return Json(rubricList);
+        }
     }
 }

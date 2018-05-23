@@ -47,6 +47,7 @@
                     <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
                     <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a> |
+                    @Html.ActionLink("Тесты", "Index", "UnitTests", new { bySubject = item.Rubric.SubjectId, byRubric = item.RubricId, byDuty = item.ID })
                 </td>
             </tr>
         }
@@ -57,7 +58,6 @@
     <script>
         $("#bySubject").change(function () {
             $.getJSON("/Duties/UpdateRubric?idSubject=" + $("#bySubject").val(), function (data) {
-                //$("#RubricSearch").html('<select id ="byRubric" name="byRubric" class="form-control"><option value="">All</option></select>');
                 $("#byRubric").html('');
                 $("#byRubric").append('<option value="">Все</option>');
                 $.each(data, function (index, rubric) {
@@ -76,9 +76,10 @@
                     $("#Duties tbody").append(
                         '<tr><td>'+ duty.name +'</td>' +
                         '<td>' + duty.rubricName +'</td><td>' +
-                        '<a href="/Duties/Edit/'+duty.id+'">Редактировать</a> |' +
-                        '<a href="/Duties/Details/' + duty.id +'">Детали</a> |' +
-                        '<a href="/Duties/Delete/' + duty.id +'">Удалить</a> |</td>' +
+                        '<a href="/Duties/Edit/'+duty.id+'">Редактировать</a> | ' +
+                        '<a href="/Duties/Details/' + duty.id +'">Детали</a> | ' +
+                        '<a href="/Duties/Delete/' + duty.id + '">Удалить</a> | ' +
+                        '<a href="/UnitTests/Index?bySubject=' + duty.subjectId + '&byRubric' + duty.rubricId + '&byDuty=' + duty.id+'">Тесты</a></td > ' +
                         '</tr>');
                 });
             });

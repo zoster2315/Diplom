@@ -10,14 +10,12 @@
     <div class="form-actions no-color">
         <p>
             <div class="form-group">
-                Тематика: <select name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">All</option></select>
-                <input type="submit" value="Поиск" class="btn btn-default" /> |
-                <a asp-action="Index">К списку</a>
+                Тематика: <select id="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">Все</option></select>
             </div>
         </p>
     </div>
 </form>
-<table class="table">
+<table class="table" id="Rubrics">
     <thead>
         <tr>
             <th>
@@ -43,9 +41,30 @@
                     <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
                     <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a> |
-                    @Html.ActionLink("Duties", "Index", "Duties", new { bySubject = item.Subject.ID, byRubric = item.ID })
+                    @Html.ActionLink("Задания", "Index", "Duties", new { bySubject = item.Subject.ID, byRubric = item.ID })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $("#bySubject").change(function () {
+            $.getJSON("/Rubrics/GetRubrics?idSubject=" + $("#bySubject").val(), function (data) {
+                $("#Rubrics tbody").html('');
+                $.each(data, function (index, duty) {
+                    $("#Rubrics tbody").append(
+                        '<tr><td>' + duty.name + '</td>' +
+                        '<td>' + duty.subjectName + '</td><td>' +
+                        '<a href="/Rubrics/Edit/' + duty.id + '">Редактировать</a> | ' +
+                        '<a href="/Rubrics/Details/' + duty.id + '">Детали</a> | ' +
+                        '<a href="/Rubrics/Delete/' + duty.id + '">Удалить</a> | ' +
+                        '<a href="/Duties/Index?bySubject=' + duty.subjectId + '&byRubric' + duty.id + '">Задания</a></td > ' +
+                        '</tr>');
+                });
+            });
+        })
+
+    </script>
+}

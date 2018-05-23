@@ -13,7 +13,7 @@
         var prevName = document.getElementsByName("NameValue[" + i + "]")[0].value;
         var prevArg = document.getElementsByName("Values[" + i + "]")[0].value;
         if (prevArg == "" || prevName == "") {
-            alert("alert");
+            alert("Должны быть заполнены все поля.");
             return;
         }
         i++;

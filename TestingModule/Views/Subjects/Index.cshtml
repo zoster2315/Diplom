@@ -27,7 +27,7 @@
                 <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a> |
-                @Html.ActionLink("Rubrics", "Index", "Rubrics", new { bySubject = item.ID })
+                @Html.ActionLink("Темы", "Index", "Rubrics", new { bySubject = item.ID })
             </td>
         </tr>
 }

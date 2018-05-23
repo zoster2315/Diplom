@@ -20,15 +20,25 @@ namespace TestingModule.Controllers
         }
 
         // GET: UnitTests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string bySubject, string byRubric, string byDuty)
         {
-            var testsContext = _context.UnitTests.Include(u => u.Duty);
-
+            var tests = from t in _context.UnitTests select t;
             var rubrics = _context.Rubrics.Where(r => true);
+            if (!string.IsNullOrEmpty(bySubject))
+                rubrics = rubrics.Where(r => r.Subject.ToString() == bySubject);
+
             var duties = _context.Duties.Where(r => true);
-            ViewBag.SubjectId = new SelectList(_context.Subjects, "ID", "Name");
-            ViewBag.RubricId = new SelectList(rubrics, "ID", "Name");
-            ViewBag.DutyId = new SelectList(duties, "ID", "Name");
+            if (!string.IsNullOrEmpty(byRubric))
+                duties = duties.Where(r => r.Rubric.ToString() == byRubric);
+
+            if (!string.IsNullOrEmpty(byDuty))
+                tests = tests.Where(t => t.Duty.ToString() == byDuty);
+            var testsContext = tests.Include(u => u.Duty);
+
+
+            ViewBag.SubjectId = new SelectList(_context.Subjects, "ID", "Name", bySubject);
+            ViewBag.RubricId = new SelectList(rubrics, "ID", "Name", byRubric);
+            ViewBag.DutyId = new SelectList(duties, "ID", "Name", byDuty);
             return View(await testsContext.ToListAsync());
         }
 
@@ -97,7 +107,7 @@ namespace TestingModule.Controllers
             ViewData["DutyId"] = new SelectList(_context.Duties, "ID", "Name", unitTest.DutyId);
 
             SetArgsAndValues(unitTest);
-            
+
             return View(unitTest);
         }
 
@@ -206,6 +216,34 @@ namespace TestingModule.Controllers
             unitTest.Value = value;
             unitTest.ID = id;
             unitTest.DutyId = dutyId;
+        }
+
+        public class TestItem
+        {
+            public int ID { get; set; }
+            public string Arguments { get; set; }
+            public string DutyName { get; set; }
+            public string Values { get; set; }
+
+        }
+
+        public IActionResult GetTests(int idDuty)
+        {
+            var tests = from t in _context.UnitTests select t;
+            if (idDuty != 0)
+                tests = tests.Where(r => r.DutyId == idDuty);
+            var testsContext = tests.Include(r => r.Duty);
+            var dutiesList = new List<TestItem>();
+            foreach (UnitTest d in testsContext)
+            {
+                var dutyItem = new TestItem();
+                dutyItem.ID = d.ID;
+                dutyItem.Arguments = d.Arguments;
+                dutyItem.Values = d.Value;
+                dutyItem.DutyName = d.Duty.Name;
+                dutiesList.Add(dutyItem);
+            }
+            return Json(dutiesList);
         }
     }
 }
