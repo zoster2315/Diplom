@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <label asp-for="DutyId" class="control-label">Задание</label>
                     <select asp-for="DutyId" class="form-control" asp-items="ViewBag.DutyId"></select>
-                    <div id="DutyDescr">dsfgsdfg</div>
+                    <div id="DutyDescr">@ViewBag.Description</div>
                 </div>
                 <style>
                     table {

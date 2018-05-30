@@ -62,9 +62,17 @@ namespace TestingModule.Controllers
         }
 
         // GET: UnitTests/Create
-        public IActionResult Create()
+        public IActionResult Create(int byDuty)
         {
-            ViewData["DutyId"] = new SelectList(_context.Duties, "ID", "Name");
+            try
+            {
+                ViewBag.Description = _context.Duties.First(d => d.ID == byDuty).Description;
+            }
+            catch (Exception e)
+            {
+                ViewBag.Description = string.Empty;
+            }
+            ViewBag.DutyId = new SelectList(_context.Duties, "ID", "Name", byDuty);
             return View();
         }
 

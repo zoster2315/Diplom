@@ -7,7 +7,7 @@
 <h2>Тесты</h2>
 
 <p>
-    <a asp-action="Create">Создать</a>
+    <a id="createLink" href="/UnitTests/Create?byDuty=1">Создать</a>
 </p>
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
@@ -101,6 +101,7 @@
                         '<a href="/UnitTests/Details/' + duty.id + '">Детали</a> | ' +
                         '<a href="/UnitTests/Delete/' + duty.id + '">Удалить</a> | </td>' +
                         '</tr>');
+                    $("#createLink").attr("href", "/UnitTests/Create?byDuty=" + $("#byDuty").val());
                 });
             });
         })
