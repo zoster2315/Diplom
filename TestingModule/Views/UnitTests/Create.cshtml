@@ -1,7 +1,7 @@
 ﻿@model TestingModule.Models.UnitTest
 
 @{
-    ViewData["Title"] = "Create";
+  ViewData["Title"] = "Create";
 }
 
 <h2>Создание</h2>
@@ -9,115 +9,79 @@
 <h4>Тест</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div id="arguments">
-                <div class="form-group">
-                    <label asp-for="DutyId" class="control-label">Задание</label>
-                    <select asp-for="DutyId" class="form-control" asp-items="ViewBag.DutyId"></select>
-                    <div id="DutyDescr">@ViewBag.Description</div>
-                </div>
-                <style>
-                    table {
-                        border-collapse: separate;
-                        border-spacing: 10px 10px;
-                        width: 100%
-                    }
-                </style>
-                <table class="body-content" title="Аргументы">
-                    <tr>
-                        <th>Имя</th>
-                        <th>Значение</th>
-                    </tr>
-                    <tr>
-                        <td><input type='text' name='NameArgs[0]' class="form-control"/></td>
-                        <td><input type='text' name='Args[0]' class="form-control"/></td>
-                    </tr>
-                </table>
-            </div>
-            <p><input type="button" id="addArg" value="Добавить аргумент" class="btn btn-default"/></p>
-            <div id="values">
-                <table class="body-content" title="Значения">
-                    <tr>
-                        <th>Имя</th>
-                        <th>Значение</th>
-                    </tr>
-                    <tr>
-                        <td><input type='text' name='NameValue[0]' class="form-control"/></td>
-                        <td><input type='text' name='Values[0]' class="form-control"/></td>
-                    </tr>
-                </table>
-            </div>
-            <p><input type="button" id="addVal" value="Добавить значение" class="btn btn-default"/></p>
-            <div class="form-group">
-                <input type="submit" value="Создать" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+  <div class="col-md-4">
+    <form asp-action="Create">
+      @Html.AntiForgeryToken()
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div id="arguments">
+        <div class="form-group">
+          Тематика: <select id="bySubject" name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value=""></option></select>
+        </div>
+        <div id="RubricSearch" class="form-group">
+          Тема: <select id="byRubric" name="byRubric" class="form-control" asp-items="ViewBag.RubricId"><option value=""></option></select>
+        </div>
+        <div class="form-group">
+          <label asp-for="DutyId" class="control-label">Задание</label>
+          <select asp-for="DutyId" id="byDuty" name="byDuty" class="form-control" asp-items="ViewBag.DutyId"><option value=""></option></select>
+          <div id="DutyDescr">@ViewBag.Description</div>
+        </div>
+        <style>
+          table {
+            border-collapse: separate;
+            border-spacing: 10px 10px;
+            width: 100%
+          }
+        </style>
+        <table class="body-content" title="Аргументы">
+          Аргументы
+          <tr>
+            <th>Значение</th>
+          </tr>
+          <tr>
+            <td><input type='text' name='Args[0]' class="form-control" /></td>
+          </tr>
+        </table>
+      </div>
+      <p><input type="button" id="addArg" value="Добавить аргумент" class="btn btn-default" /></p>
+      <div id="values">
+        <table class="body-content" title="Значения">
+          Значения
+          <tr>
+            <th>Значение</th>
+          </tr>
+          <tr>
+            <td><input type='text' name='Values[0]' class="form-control" /></td>
+          </tr>
+        </table>
+      </div>
+      <p><input type="button" id="addVal" value="Добавить значение" class="btn btn-default" /></p>
+      <div class="form-group">
+        <input type="submit" value="Создать" class="btn btn-default" />
+      </div>
+    </form>
+  </div>
 </div>
 
 <div>
-    <a asp-action="Index">К списку</a>
+  <a asp-action="Index">К списку</a>
 </div>
 
 @section Scripts {
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script src="~/Scripts/UnitTest/AddArgument.js">
-        /*$(function () {
-            var i = 0;
-            $('#addArg').click(function () {
-                var prevName = document.getElementsByName("NameArgs[" + i + "]")[0].value;
-                var prevArg = document.getElementsByName("Args[" + i + "]")[0].value;
-                if (prevArg == "" || prevName == "") {
-                    alert("alert");
-                    return;
-                }
-                i++;
-                var html2Add = "<table class='body-content'>" +
-                    "<tr>" +
-                    "<td><input type='text' name='NameArgs[" + i + "]' class='form-control'/></td>" +
-                    "<td><input type='text' name='Args[" + i + "]' class='form-control'/></td>" +
-                    "</tr>" +
-                    "</table>";
-                $('#arguments').append(html2Add);
-            })
-        })*/
-    </script>
+  <script src="~/Scripts/UnitTest/AddArgument.js"></script>
+  <script src="~/Scripts/UnitTest/AddValue.js"></script>
+  <script src="~/Scripts/UnitTest/GetRubricList.js"></script>
+  <script src="~/Scripts/UnitTest/GetDutiesList.js"></script>
+  <script src="~/Scripts/UnitTest/GetDutyDescription.js"></script>
 
-    <script src="~/Scripts/UnitTest/AddValue.js">
-        /*
-        $(function () {
-            var i = 0;
-            $('.addVal').click(function () {
-                var prevName = document.getElementsByName("NameValue[" + i + "]")[0].value;
-                var prevArg = document.getElementsByName("Value[" + i + "]")[0].value;
-                if (prevArg == "" || prevName == "") {
-                    alert("alert");
-                    return;
-                }
-                i++;
-                var html2Add = "<table class='body-content'>" +
-                    "<tr>" +
-                    "<td><input type='text' name='NameValue[" + i + "]' class='form-control'/></td>" +
-                    "<td><input type='text' name='Values[" + i + "]' class='form-control'/></td>" +
-                    "</tr>" +
-                    "</table>";
-                $('#values').append(html2Add);
-            })
-        })*/
-    </script>
-
-
-    <script>
-        $("#DutyId").change(function () {
-            $.getJSON("/UnitTests/GetDescription?DutyID=" + $("#DutyId").val(), function (data) {
-                $("#DutyDescr").text(data);
-            });
-        })
-    </script>
+  <script>
+    /*$("#DutyId").change(function () {
+      $.getJSON("/UnitTests/GetDescription?DutyID=" + $("#DutyId").val(), function (data) {
+        $("#DutyDescr").text(data);
+      });
+    })*/
+  </script>
 
 }

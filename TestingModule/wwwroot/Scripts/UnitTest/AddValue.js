@@ -1,6 +1,5 @@
 ﻿$(function () {
     $('#addVal').click(function () {
-        debugger;
         var i = 0;
         var k = i + 1;
         var next = 'NameValue[' + k + ']';
