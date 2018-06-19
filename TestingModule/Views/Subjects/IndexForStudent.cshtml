@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TestingModule.Models.Subject>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Тематика</h2>
+
+<p>
+    <a asp-action="Create">Создать</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+              @Html.ActionLink("Темы", "IndexForStudent", "Rubrics", new { bySubject = item.ID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

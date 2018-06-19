@@ -19,6 +19,29 @@ namespace TestingModule.Controllers
       _context = context;
     }
 
+
+    public async Task<IActionResult> IndexForStudent(string bySubject, string byRubric, string byDuty)
+    {
+      var tests = from t in _context.UnitTests select t;
+      var rubrics = _context.Rubrics.Where(r => true);
+      if (!string.IsNullOrEmpty(bySubject))
+        rubrics = rubrics.Where(r => r.Subject.ToString() == bySubject);
+
+      var duties = _context.Duties.Where(r => true);
+      if (!string.IsNullOrEmpty(byRubric))
+        duties = duties.Where(r => r.Rubric.ToString() == byRubric);
+
+      if (!string.IsNullOrEmpty(byDuty))
+        tests = tests.Where(t => t.Duty.ToString() == byDuty);
+      var testsContext = tests.Include(u => u.Duty);
+
+
+      ViewBag.SubjectId = new SelectList(_context.Subjects, "ID", "Name", bySubject);
+      ViewBag.RubricId = new SelectList(rubrics, "ID", "Name", byRubric);
+      ViewBag.DutyId = new SelectList(duties, "ID", "Name", byDuty);
+      return View(await testsContext.ToListAsync());
+    }
+
     // GET: UnitTests
     public async Task<IActionResult> Index(string bySubject, string byRubric, string byDuty)
     {

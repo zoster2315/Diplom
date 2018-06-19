@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TestingModule.Models.Duty>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Задания</h2>
+
+<p>
+    <a asp-action="Create" >Создать</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <div class="form-group">
+                Тематика: <select id="bySubject" name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value="">Все</option></select>
+            </div>
+            <div id="RubricSearch" class="form-group">
+                Тема: <select id="byRubric" name="byRubric" class="form-control" asp-items="ViewBag.RubricId"><option value="">Все</option></select>
+            </div>
+        </p>
+    </div>
+</form>
+<table id="Duties" class="table">
+    <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Тема
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rubric.Name)
+                </td>
+                <td>
+                  @Html.ActionLink("Тесты", "IndexForStudent", "UnitTests", new { bySubject = item.Rubric.SubjectId, byRubric = item.RubricId, byDuty = item.ID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $("#bySubject").change(function () {
+            $.getJSON("/Duties/UpdateRubric?idSubject=" + $("#bySubject").val(), function (data) {
+                $("#byRubric").html('');
+                $("#byRubric").append('<option value="">Все</option>');
+                $.each(data, function (index, rubric) {
+                    $("#byRubric").append('<option value="' + rubric.id + '">' + rubric.name + '</option>')
+                })
+            });
+        })
+
+    </script>
+
+    <script>
+        $("#byRubric").change(function () {
+            $.getJSON("/Duties/GetDuties?idRubric=" + $("#byRubric").val(), function (data) {
+                $("#Duties tbody").html('');
+                $.each(data, function (index, duty) {
+                    $("#Duties tbody").append(
+                        '<tr><td>'+ duty.name +'</td>' +
+                        '<td>' + duty.rubricName +'</td><td>' +
+                        '<a href="/UnitTests/IndexForStudent?bySubject=' + duty.subjectId + '&byRubric' + duty.rubricId + '&byDuty=' + duty.id+'">Тесты</a></td > ' +
+                        '</tr>');
+                });
+            });
+        })
+
+    </script>
+}

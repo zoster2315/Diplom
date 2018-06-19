@@ -1,0 +1,87 @@
+﻿@model IEnumerable<TestingModule.Models.UnitTest>
+
+@{
+  ViewData["Title"] = "Index";
+}
+
+<h2>Тесты</h2>
+
+<p>
+  <a id="createLink" href="/UnitTests/Create">Создать</a>
+</p>
+<form asp-action="Index" method="get">
+  <div class="form-actions no-color">
+    <p>
+      <div class="form-group">
+        Тематика: <select id="bySubject" name="bySubject" class="form-control" asp-items="ViewBag.SubjectId"><option value=""></option></select>
+      </div>
+      <div id="RubricSearch" class="form-group">
+        Тема: <select id="byRubric" name="byRubric" class="form-control" asp-items="ViewBag.RubricId"><option value=""></option></select>
+      </div>
+      <div id="DutycSearch" class="form-group">
+        Задание: <select id="byDuty" name="byDuty" class="form-control" asp-items="ViewBag.DutyId"><option value=""></option></select>
+      </div>
+    </p>
+  </div>
+</form>
+<table class="table" id="Tests">
+  <thead>
+    <tr><th>Аргументы</th><th>Значения</th><th>Задание</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>@Html.DisplayFor(modelItem => item.Arguments)</td>
+        <td>@Html.DisplayFor(modelItem => item.Value)</td>
+        <td>@Html.DisplayFor(modelItem => item.Duty.Name)</td>
+        <td>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@section Scripts {
+  <script src="~/Scripts/UnitTest/GetRubricList.js">
+    /*$("#bySubject").change(function () {
+      $.getJSON("/Duties/UpdateRubric?idSubject=" + $("#bySubject").val(), function (data) {
+        $("#byRubric").html('');
+        $("#byRubric").append('<option value="">All</option>');
+        $.each(data, function (index, rubric) {
+          $("#byRubric").append('<option value="' + rubric.id + '">' + rubric.name + '</option>')
+        })
+      });
+    })*/
+  </script>
+
+  <script src="~/Scripts/UnitTest/GetDutiesList.js">
+    /*$("#byRubric").change(function () {
+      $.getJSON("/Duties/GetDuties?idRubric=" + $("#byRubric").val(), function (data) {
+        $("#byDuty").html('');
+        $("#byDuty").append('<option value="">All</option>');
+        $.each(data, function (index, rubric) {
+          $("#byDuty").append('<option value="' + rubric.id + '">' + rubric.name + '</option>')
+        })
+      });
+    });*/
+  </script>
+
+  <script>
+    $("#byDuty").change(function () {
+      $.getJSON("/UnitTests/GetTests?idDuty=" + $("#byDuty").val(), function (data) {
+        $("#Tests tbody").html('');
+        $.each(data, function (index, duty) {
+          $("#Tests tbody").append(
+            '<tr><td>' + duty.arguments + '</td>' +
+            '<td>' + duty.values + '</td>' +
+            '<td>' + duty.dutyName + '</td><td> ' +
+            '</tr>');
+          $("#createLink").attr("href", "/UnitTests/Create?byDuty=" + $("#byDuty").val());
+        });
+      });
+    })
+
+  </script>
+}

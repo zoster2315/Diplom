@@ -30,6 +30,16 @@ namespace TestingModule.Controllers
       return View(await testsContext.AsNoTracking().ToListAsync());
     }
 
+    public async Task<IActionResult> IndexForStudent(int? bySubject)
+    {
+      var rubrics = from r in _context.Rubrics select r;
+      if (bySubject != null)
+        rubrics = rubrics.Where(r => r.SubjectId == bySubject);
+      var testsContext = rubrics.Include(r => r.Subject);
+      ViewBag.SubjectId = new SelectList(_context.Subjects, "ID", "Name", bySubject);
+      return View(await testsContext.AsNoTracking().ToListAsync());
+    }
+
     // GET: Rubrics/Details/5
     public async Task<IActionResult> Details(int? id)
     {
